@@ -4,10 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>wsinteg</groupId>
-		<artifactId>spring-boot-angular-example</artifactId>
+		<artifactId>spa</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
+	<groupId>wsinteg</groupId>
 	<artifactId>spa-backend</artifactId>
 	<version>${project.parent.version}</version>
 	<packaging>war</packaging>
