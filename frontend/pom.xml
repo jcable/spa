@@ -7,9 +7,7 @@
     </parent>
   <modelVersion>4.0.0</modelVersion>
  
-  <groupId>wsinteg</groupId>
  <artifactId>spa-frontend</artifactId>
-  <version>${project.parent.version}</version>
  
   <build>
     <resources>
@@ -77,4 +75,6 @@
       </plugin>
     </plugins>
   </build>
+  <groupId>wsinteg</groupId>
+  <version>0.0.1-SNAPSHOT</version>
 </project>
