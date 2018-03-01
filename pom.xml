@@ -7,6 +7,7 @@
     <modules>
         <module>frontend</module>
         <module>backend</module>
+        <module>admin</module>
     </modules>
   <name>spring boot angular example</name>
   <description>based on https://shekhargulati.com/2017/11/08/a-minimalist-guide-to-building-spring-boot-angular-5-applications/</description>

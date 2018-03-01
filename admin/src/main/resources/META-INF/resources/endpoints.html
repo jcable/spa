@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.1//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic11.dtd"> 
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="description" content="Apache Camel Console"/>
+    <meta name="keywords" content="camel,eip,web"/>
+    <link href="css/site.css" rel="stylesheet" type="text/css"/>
+    <link href="css/sorttable.css" rel="stylesheet" type="text/css"/>
+    <link href="css/type-settings.css" rel="stylesheet" type="text/css"/>
+    <script src="js/common.js" type="text/javascript"></script>
+    <script src="js/css.js" type="text/javascript"></script>
+    <script src="js/standardista-table-sorting.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="js/jolokia-min.js" type="text/javascript"></script>
+    <script src="js/jolokia-simple-min.js" type="text/javascript"></script>
+    <title>
+      Endpoints
+    </title>
+  </head>
+  <body>
+    <div class="white_box">
+      <div class="header">
+        <div class="header_l">
+          <div class="header_r"></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="content_l">
+          <div class="content_r">
+            <div>
+              <!-- Banner -->
+              <div id="asf_logo">
+                <div id="activemq_logo">
+                  <a href="http://camel.apache.org/" style="float:left; width:280px;display:block;text-indent:-5000px;text-decoration:none;line-height:60px; margin-top:10px; margin-left:100px;" title="a powerful open source integration framework based on known Enterprise Integration Patterns with powerful Bean Integration">Camel</a>
+                  <a href="http://www.apache.org/" style="float:right; width:210px;display:block;text-indent:-5000px;text-decoration:none;line-height:60px; margin-top:15px; margin-right:10px;" title="The Apache Software Foundation">ASF</a>
+                </div>
+              </div>
+              <div class="top_red_bar">
+                <div id="site-breadcrumbs">
+                  <a href="index.html" title="Home">Home</a>
+                  |
+                  <a href="endpoints.html" title="View current endpoints or create new ones">Endpoints</a>
+                  |
+                  <a href="routes.html" title="View current routes">Routes</a>
+                </div>
+                <div id="site-quicklinks">
+                  <P>
+                    <a href="http://camel.apache.org/support.html" title="Get help and support using Apache Camel">Support</a>
+                  </P>
+                </div>
+              </div>
+              <table border="0">
+                <tbody>
+                  <tr>
+                    <td style="overflow:hidden;" valign="top" width="100%">
+                      <div class="body-content">
+<h2>Endpoints</h2>
+<ul id="endpoints"></ul>
+                      </div>
+                    </td>
+                    <td valign="top">
+                      <div class="navigation">
+                        <div class="navigation_bottomon_top">
+                          <div class="navigation_bottom">
+                            <H3>Useful Links</H3>
+                            <ul class="alternate" type="square">
+                              <li>
+                                <a href="http://camel.apache.org/documentation.html" title="a powerful open source integration framework based on known Enterprise Integration Patterns with powerful Bean Integration">Documentation</a>
+                              </li>
+                              <li>
+                                <a href="http://camel.apache.org/web-console.html" title="more help on using the Web Console">Console Help</a>
+                              </li>
+                              <li>
+                                <a href="http://camel.apache.org/faq.html">FAQ</a>
+                              </li>
+                              <li>
+                                <a href="api" title="View the REST API details">API</a>
+                              </li>
+                              <li>
+                                <a href="http://camel.apache.org/download.html">Downloads</a>
+                              </li>
+                              <li>
+                                <a href="http://camel.apache.org/discussion-forums.html">Forums</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="bottom_red_bar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="black_box">
+        <div class="footer">
+          <div class="footer_l">
+            <div class="footer_r">
+              <div>
+                Copyright 2005-2011 The Apache Software Foundation.
+                (<a href="?printable=true">printable version</a>)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="design_attribution">
+      <a href="http://hiramchirino.com/">Graphic Design By Hiram</a>
+    </div>
+  </body>
+<script lang="javaScript">
+var myId = window.location.pathname.split('/')[1].replace(/%2D/g, '-');
+var j4p = new Jolokia("/jolokia");
+j4p.request(
+  { type: "read", mbean: 'org.apache.camel:context=*,type=context,name=*' },
+  {
+	method:"post",
+	success: function(response) {
+		  var mbean = "org.apache.camel:context="+myId+",type=endpoints,name=*";
+		  console.log(mbean);
+		  j4p.request(
+		    {"type":"read","mbean":mbean},
+		    {
+			method:"post",
+			success: function(response) {
+				console.log(response.value);
+				Object.entries(response.value).forEach(([key, value]) => {
+					$("#endpoints").append("<li class='endpoint'>"+value.EndpointUri+"</li>");
+				});
+		        }, 
+		        error: function(response) {
+				console.log("Jolokia request failed: " + response.error);
+		        } 
+		  });
+	  },
+      error: function(response) {
+		console.log("Jolokia request failed: " + response.error);
+      } 
+});
+</script>
+</html>
